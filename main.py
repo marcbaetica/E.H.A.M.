@@ -9,4 +9,4 @@ hab_simulation.start()
 
 while True:
     print(hab.light, hab.heat, hab.electricity_stored, hab.interior_temperature)
-    sleep(1)
+    sleep(0.1)

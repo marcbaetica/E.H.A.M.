@@ -13,8 +13,8 @@ class HabitatSim:
         self.exterior_temperature = 0
         self.interior_temperature = 0
         self.radiation_indoor = 0
-        self.electricity_demand = 0
-        self.electricity_supply = 0
+        self.electricity_demand = 1
+        self.electricity_supply = 1
         self.electricity_stored = 100
         self.light = 'ON'
         self.heat = 'ON'
@@ -27,16 +27,23 @@ class HabitatSim:
 
     def consume_electricity(self):
         if self.light == 'ON' and self.electricity_stored > 0:
-            self.electricity_stored = self.electricity_stored - 1
+            self.electricity_stored = self.electricity_stored - self.electricity_demand
         if self.heat == 'ON' and self.electricity_stored > 0:
-            self.electricity_stored = self.electricity_stored - 1
+            self.electricity_stored = self.electricity_stored - self.electricity_demand
         if self.electricity_stored == 0:
             self.light = 'OFF'
             self.heat = 'OFF'
+
+    def accumulate_electricity(self):
+        if self.electricity_stored != 100:
+            self.electricity_stored += self.electricity_supply
+            if self.electricity_stored > 100:
+                self.electricity_stored = 100
 
     def start_simulation(self):
         while True:
             modify_temperature = choice([self.increase_temperature, self.decrease_temperature])
             modify_temperature()
             self.consume_electricity()
-            sleep(1)
+            self.accumulate_electricity()
+            sleep(0.1)

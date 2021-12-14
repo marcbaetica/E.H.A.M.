@@ -8,5 +8,5 @@ hab_simulation = Thread(target=hab.start_simulation)
 hab_simulation.start()
 
 while True:
-    print(hab.interior_temperature)
+    print(hab.light, hab.heat, hab.electricity_stored, hab.interior_temperature)
     sleep(1)
